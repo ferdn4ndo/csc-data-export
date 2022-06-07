@@ -1,0 +1,14 @@
+# env files
+.env
+
+# IDE files
+.vscode/
+.idea/
+
+# data files
+data/*
+!data/.gitkeep
+
+# SQL dumps
+dumps/*
+!dumps/.gitkeep
