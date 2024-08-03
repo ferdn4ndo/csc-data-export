@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  csc-data-export:
+    container_name: csc-data-export
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    volumes:
+      - ./src:/code/src
+      - ./data:/code/data
+
+  db:
+    container_name: csc-data-export-db
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./dumps:/docker-entrypoint-initdb.d
+    env_file:
+      - ./.env
+    ports:
+      - "${LOCAL_SQL_PORT}:3306"
+    environment:
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
+volumes:
+  notused:
